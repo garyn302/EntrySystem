@@ -1,18 +1,18 @@
 $(document).ready(function() {
-	$("#inDoorRightSelected").click(function(){
-		$("#inDoor option:selected").each(function(){
-			$("#inDoorSelect").append("<option value=" + $(this).val() + ">" + $(this).html() + "</option>");
+	$("#objectRightSelected").click(function(){
+		$("#object option:selected").each(function(){
+			$("#objectSelect").append("<option value=" + $(this).val() + ">" + $(this).html() + "</option>");
 			$(this).remove();
         	});
-		SortOption("#inDoorSelect");
+		SortOption("#objectSelect");
 	});
 
-	$("#inDoorLeftSelected").click(function(){    
-		$("#inDoorSelect option:selected").each(function(){
-			$("#inDoor").append("<option value=" + $(this).val() + ">" + $(this).html() + "</option>");
+	$("#objectLeftSelected").click(function(){    
+		$("#objectSelect option:selected").each(function(){
+			$("#object").append("<option value=" + $(this).val() + ">" + $(this).html() + "</option>");
 			$(this).remove();
 		});
-		SortOption("#inDoor");
+		SortOption("#object");
 	});
     
 	// $("#outDoorRightSelected").click(function(){
@@ -32,7 +32,7 @@ $(document).ready(function() {
 	// });
 
 	$("#Confirm").click(function() {
-		$('#inDoorSelect option').prop('selected', true);
+		$('#objectSelect option').prop('selected', true);
 		// $('#outDoorSelect option').prop('selected', true);
 
 	});

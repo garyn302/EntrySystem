@@ -124,17 +124,17 @@
 </head>
 
 <body bgcolor='F0F8FF'>
-    <div id="header" style="background-color:#F0F8FF;text-align:center;" onclick="location.href='/EntryControl/Group/{{groups.group_name}}'">
+    <div id="header" style="background-color:#F0F8FF;text-align:center;" onclick="location.href='/EntryControl/Domain/{{domains.domain_name}}'">
         <h2 style="margin-top:0;margin-bottom:5px;">Entry System</h2>
-        <h4 style="margin-top:0;margin-bottom:5px;">Group List<!--  <a style="color:red;" href="/group">Back</a> --></h4>
+        <h4 style="margin-top:0;margin-bottom:5px;">Domain List<!--  <a style="color:red;" href="/group">Back</a> --></h4>
     </div>
     <div id="tabsF">
         <ul>
             <li><a href="/EntryControl/EntryPolicy/"><span>Entry Policy</span></a></li>
             <li><a href="/EntryControl/UserData"><span>User List</span></a></li>    
             <li><a href="/EntryControl/Group/"><span>Group Define</span></a></li>
-            <li id="current"><a href="/EntryControl/Group/{{groups.group_name}}"><span>{{groups.group_name}}</span></a></li>
-            <li><a href="/EntryControl/EntryPolicy/Domain/"><span>Domain Define</span></a></li>
+            <li><a href="/EntryControl/Domain/"><span>Domain Define</span></a></li>
+            <li id="current"><a href="/EntryControl/Domain/{{domains.domain_name}}"><span>{{domains.domain_name}}</span></a></li>
             <li><a href="/EventCenter/EventView/"><span>Event View</span></a></li>
             <li><a href="/EventCenter/EventSearch/"><span>Event Search</span></a></li>
             <li><a href="/ReaderView/"><span>Reader View</span></a></li>
@@ -146,23 +146,23 @@
         <table style="font-family: arial, sans-serif;border-collapse: collapse;width: 99.8%;">
             <tr>
                 <th>
-                    <label for="group_id">Group ID</label>
+                    <label for="group_id">Domain ID</label>
                 </th>
                 <th>
-                    <label for="groupname">Group Name</label>
+                    <label for="domainname">Domain Name</label>
                 </th>
                 <th>
-                    <label for="descriptio">Descriptio</label>
+                    <label for="descriptio">Description</label>
                 </th>
                 <tr>
                     <td>
-                        {{groups.group_id}}
+                        {{domains.domain_id}}
                     </td>
                     <td>
-                        {{groups.group_name}}
+                        {{domains.domain_name}}
                     </td>
                     <td>
-                        {{groups.group_description}}
+                        {{domains.domain_description}}
                     </td>
                 </tr>
         </table>
@@ -175,17 +175,17 @@
                     <table style="width: 75%;" border="0" align="center">
                         <tbody>
                             <tr table="" align="center">
-                                <td style="width: 12%;">Available User</td>
+                                <td style="width: 12%;">Available Door</td>
                                 <td style="width: 6%;">
                                     <br>
                                 </td>
-                                <td style="width: 12%;">User In Group</td>
+                                <td style="width: 12%;">Door In domain</td>
                             </tr>
                             <tr table="" align="center">
                                 <td style="width: 12%;">
                                     <select name="object" id="object" size="10" multiple="multiple" style="width: 100%; overflow:auto;">
-                                        {% for available_user in available_users %}
-                                        <option value="{{available_user}}">{{available_user}}</option>
+                                        {% for available_reader in available_readers %}
+                                        <option value="{{available_reader}}">{{available_reader}}</option>
                                         {% endfor %}
                                     </select>
                                     <br>
@@ -198,8 +198,8 @@
                                 </td>
                                 <td style="width: 12%;">
                                     <select name="objectSelect" id="objectSelect" size="10" multiple="multiple" style="width: 100%; overflow:auto;">
-                                        {% for group_user in group_users %}
-                                        <option value={{group_user}}>{{group_user}}</option>
+                                        {% for domain_reader in domain_readers %}
+                                        <option value={{domain_reader}}>{{domain_reader}}</option>
                                         {% endfor %}
                                     </select>
                                     <br>

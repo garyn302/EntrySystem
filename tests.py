@@ -14,4 +14,4 @@ for i in range(1,len(policyconfig_lines)):
 	policy = policyconfig_lines[i].split('\n')[0]
 	print policy.split(' ')[1]
 
-#for github test
+

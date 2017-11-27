@@ -152,6 +152,7 @@ def entrypolicy(request):
 @csrf_exempt
 def getuser(request):
 	users = userdata.objects.all()
+	last_user_id = 1
 	if 'Confirm' in request.POST :
 		uid = request.POST['userid']
 		psw = request.POST['psw']
@@ -165,8 +166,18 @@ def getuser(request):
 		else:
 			print "True"
 			manager = True
+		try:
+			if_user_null = userdata.objects.all()
+		except:
+			last_user_id = 1
+		else:
+			for userlast in users:
+				last_user_id = userlast.id + 1
+				
+
 		userdata.objects.create(
-			id=100, 
+			qid=1,
+			id=last_user_id, 
 			userid=uid,
 			createtime=timezone.localtime(timezone.now()),
 			modifytime=timezone.localtime(timezone.now()),
@@ -182,39 +193,44 @@ def getuser(request):
 @csrf_exempt
 def getgroup(request):
 	groups = group.objects.all()
+	last_group_id = 1
 	if 'Confirm' in request.POST:
-		gid = request.POST['group_id']
+		try:
+			if_columns_null = group.objects.all()
+		except:
+			print "NONODATA"
+			last_group_id = 1
+		else:
+			print "UES"
+			for getlast in groups:
+				last_group_id = getlast.group_id + 1
+
 		name = request.POST['group_name']
 		member=[]
 		member.append('ADMIN')
 		description = request.POST['group_description']
 		group.objects.create(
-			group_id=gid, 
+			qid=1,
+			group_id=last_group_id, 
 			create_time=timezone.localtime(timezone.now()),
 			group_name=name, 
 			group_member=list(member),
 			group_description=description)
 
-	try:
-		if_columns_null = group.objects.get(group_id=1)
-	except:
-		last_group_id = 1
-	else:
-		for getlast in groups:
-			last_group_id = getlast.group_id + 1
 
-	return render_to_response('group.html', {'groups':groups, 'last_group_id':last_group_id})
+
+	return render_to_response('group.html', {'groups':groups})
 	# return render_to_response('group.html', {'groups':groups, 'last_group_id':last_group_id})
 
 @csrf_exempt
 def group_member(request, GroupName):
-	Group = group.objects.get(group_name=GroupName)
+	Group = group.objects.allow_filtering().get(group_name = GroupName)
 	groupid = Group.group_id
 	if 'Confirm' in request.POST:
-		selectedusers = request.POST.getlist('inDoorSelect')
+		selectedusers = request.POST.getlist('objectSelect')
 		# print selectedusers
-		group.objects.filter(group_id=groupid).update(group_member=list(selectedusers), modify_time=timezone.localtime(timezone.now()))
-	groups = group.objects.get(group_id=groupid)
+		group.objects.filter(qid=1,group_name = GroupName,group_id=groupid).update(group_member=list(selectedusers), modify_time=timezone.localtime(timezone.now()))
+	groups = group.objects.allow_filtering().get(group_name = GroupName)
 	users = userdata.objects.all()
 	alluser_list = []
 	for user in users:
@@ -230,10 +246,56 @@ def group_member(request, GroupName):
 	available_users = list(s1.difference(s2))
 	return render_to_response('group_member.html', {'groups':Group, 'group_users':group_users, 'available_users':available_users})
 
+@csrf_exempt
+def getdomain(request):
+	domains = domain.objects.all()
+	last_domain_id = 1
+	if 'Confirm' in request.POST:
+		try:
+			if_columns_null = domain.objects.all()
+		except:
+			last_domain_id = 1
+		else:
+			for getlast in domains:
+				last_domain_id = getlast.domain_id + 1
+
+		name = request.POST['domain_name']
+		member=[]
+		member.append('ADMIN')
+		description = request.POST['domain_description']
+		domain.objects.create(
+			qid=1,
+			domain_id=last_domain_id, 
+			create_time=timezone.localtime(timezone.now()),
+			domain_name=name, 
+			domain_member=list(member),
+			domain_description=description)
+
+	return render_to_response('domain.html', {'domains':domains})
 
 
-
-
-
+@csrf_exempt
+def domain_reader(request, DomainName):
+	Domain = domain.objects.allow_filtering().get(group_name = GroupName)
+	domainid = Domain.group_id
+	if 'Confirm' in request.POST:
+		selectedusers = request.POST.getlist('objectSelect')
+		# print selectedusers
+		domain.objects.filter(qid=1,domain_name = GroupName,domain_id=domainid).update(domain_member=list(selectedusers), modify_time=timezone.localtime(timezone.now()))
+	groups = group.objects.allow_filtering().get(group_name = GroupName)
+	users = userdata.objects.all()
+	alluser_list = []
+	for user in users:
+		# print user.userid
+		alluser_list.append(user.userid)
+	group_users = []
+	group_users = groups.group_member
+	# print user_list
+	# print alluser_list
+	s1 = set(alluser_list)
+	s2 = set(group_users)
+	# print s1.difference(s2)
+	available_users = list(s1.difference(s2))
+	return render_to_response('group_member.html', {'groups':Group, 'group_users':group_users, 'available_users':available_users})
 
 

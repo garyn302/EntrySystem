@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
@@ -9,24 +8,27 @@ from cassandra.cqlengine.models import Model
 # Create your models here.  DjangoCassandraModel
 
 class group(Model):
-	group_id = columns.Integer(primary_key=True)
+	qid = columns.Integer(primary_key=True)
+	group_name = columns.Text(primary_key=True)
+	group_id = columns.Integer(primary_key=True, clustering_order="ASC")
 	create_time = columns.DateTime()
 	modify_time = columns.DateTime()
-	group_name = columns.Text(index = True)
 	group_member = columns.List(columns.Text)
 	group_description = columns.Text()
 
 class domain(Model):
-	domain_id = columns.Integer(primary_key=True)
+	qid = columns.Integer(primary_key=True)
+	domain_name = columns.Text(primary_key=True)
+	domain_id = columns.Integer(primary_key=True, clustering_order="ASC")
 	create_time = columns.DateTime()
 	modify_time = columns.DateTime()
-	domain_name = columns.Text()
-	domain_member = columns.Text()
+	domain_member = columns.List(columns.Text)
 	domain_description = columns.Text()
 
 class userdata(Model):
-	id = columns.Integer(index = True)
-	userid = columns.Text(primary_key=True)
+	qid = columns.Integer(primary_key=True)
+	id = columns.Integer(primary_key = True, clustering_order="ASC")
+	userid = columns.Text()
 	createtime = columns.DateTime()
 	modifytime = columns.DateTime()
 	firstname = columns.Text()
