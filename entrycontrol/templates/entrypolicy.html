@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Entry Policy</title>
+    <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #FFFFFF;
+        padding: 8px;
+        text-align: center;
+        background-color: #666666;
+    }
+
+    td {
+        border: 1px solid #DDDDDD;
+        padding: 8px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #DDDDDD;
+    }
+    </style>
+    <style type="text/css">
+    @import url(/static/menuTab/menuTab.css);
+    </style>
+</head>
+
+<body bgcolor='F0F8FF'>
+    <div id="header" style="background-color:#F0F8FF;text-align:center;" onclick="location.href='/EntryControl/EntryPolicy/'">
+        <h2 style="margin-top:0;margin-bottom:5px;">Entry System</h2>
+        <h4 style="margin-top:0;margin-bottom:5px;">Entry Policy</h4>
+    </div>
+    <div id="tabsF">
+        <ul>
+            <li id="current"><a href="/EntryControl/EntryPolicy/"><span>Entry Policy</span></a></li>
+            <li><a href="/EntryControl/UserData"><span>User List</span></a></li> 
+            <li><a href="/EntryControl/Group/"><span>Group Define</span></a></li>
+            <li><a href="/EntryControl/Domain/"><span>Domain Define</span></a></li>
+            <li><a href="/EventCenter/EventView/"><span>Event View</span></a></li>
+            <li><a href="/EventCenter/EventSearch/"><span>Event Search</span></a></li>
+            <li><a href="/ReaderView/"><span>Reader View</span></a></li>
+        </ul>
+    </div>
+    <center>
+        <!-- <h style="font-size:18px;color:#666666;">Enroll filter info</h> -->
+        <form name="selectform" id="selectform" action="" method="post">
+            <table style="font-family: arial, sans-serif;border-collapse: collapse;width: 99.8%;">
+                <tr>
+                    <th>
+                        <label for="policy">Role</label>
+                    </th>
+                    <th>
+                        <label for="Group">Group</label>
+                    </th>
+                    <th>
+                        <label for="Domain">Domain</label>
+                    </th>
+                    <th>
+                        <label for="Startdate">Start Date</label>
+                    </th>
+                    <th>
+                        <label for="Enddate">End Date</label>
+                    </th>
+                    <th>
+                        <!-- <label for="Day">Mon  Tue  Wes  Thu  Fri  Sat  Sun</label> -->
+                        <table style="width: 100%" border="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #666666">Mon</td>
+                                    <td style="border: 1px solid #666666">Tue</td>
+                                    <td style="border: 1px solid #666666">Wes</td>
+                                    <td style="border: 1px solid #666666">Thu</td>
+                                    <td style="border: 1px solid #666666">Fri</td>
+                                    <td style="border: 1px solid #666666">Sat</td>
+                                    <td style="border: 1px solid #666666">Sun</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                    <th>
+                        <label for="Starttime">Start Time</label>
+                    </th>
+                    <th>
+                        <label for="Endtime">End Time</label>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="policyrole" id="policyrole" maxlength="2" onchange="">
+                            <!-- departmentOnchange() -->
+                            <option value="permit">permit</option>
+                            <option value="deny">deny</option>
+
+                        </select>
+                    </td>
+                    <td>
+                        <select name="group" id="group" maxlength="2" onchange="">
+                            <!-- departmentOnchange() -->
+                            <option value="None">--Group--</option>
+                            {% for Group in Groups %}
+
+                            <option value={{Group|first}}>{{Group|first}}</option>
+                            {% endfor %}
+                            <option value="None">--UserID--</option>
+                            {% for Userdata in Userdatas %}
+                            <option value={{Userdata|first}}>{{Userdata|first}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="domain" id="domain" maxlength="2" onchange="">
+                            <!-- departmentOnchange() -->
+                            <option value="None">--Domain--</option>
+                            {% for Domain in Domains %}
+
+                            <option value={{Domain|first}}>{{Domain|first}}</option>
+                            {% endfor %}
+                            <option value="None">--Door--</option>
+                            {% for Door in Doors %}
+                            <option value={{Door.door}}>{{Door.door}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <input name="Startdate" id="Startdate" type="date">
+                    </td>
+                    <td>
+                        <input name="Enddate" id="Enddate" type="date">
+                    </td>
+                    <td>
+                        <table style="width: 100%" border="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input name="mon" id="mon" type="checkbox" CHECKED {% if mon == True %}CHECKED{% endif %}>
+                                    </td>
+                                    <td>
+                                        <input name="tue" id="tue" type="checkbox" CHECKED {% if tue == True %}CHECKED{% endif %}>
+                                    </td>
+                                    <td>
+                                        <input name="wes" id="wes" type="checkbox" CHECKED {% if wes == True %}CHECKED{% endif %}>
+                                    </td>
+                                    <td>
+                                        <input name="thu" id="thu" type="checkbox" CHECKED {% if thu == True %}CHECKED{% endif %}>
+                                    </td>
+                                    <td>
+                                        <input name="fri" id="fri" type="checkbox" CHECKED {% if fri == True %}CHECKED{% endif %}>
+                                    </td>
+                                    <td>
+                                        <input name="sat" id="sat" type="checkbox" CHECKED {% if sat == True %}CHECKED{% endif %}>
+                                    </td>
+                                    <td>
+                                        <input name="sun" id="sun" type="checkbox" CHECKED {% if sun == True %}CHECKED{% endif %}>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <input name="Starttime" id="Starttime" type="number" value="0" min="0" max="24"><br>
+                        (24hr)
+                    </td>
+                    <td>
+                        <input name="Endtime" id="Endtime" type="number" value="24" min="0" max="24"><br>
+                        (24hr)
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+            <input type="submit" name="Confirm" value="Confirm" id="Confirm" style="width:150px;height:25px;font-size:15px;">
+            <input type="submit" name="Apply" value="Apply" id="Apply" style="width:150px;height:25px;font-size:15px;">
+        </form>
+        <h4 style="margin-top:5px;margin-bottom:5px;">Message:</h4>
+        <textarea rows="5" cols="30" name="messagesview" id="messagesview" style="width: 80%; background-color: lightyellow; height: 100%;" wrap="soft" readonly>{% for Message in Messages %}{{Message}}{% endfor %}</textarea>
+        <h4 style="margin-top:5px;margin-bottom:5px;">Policy Command:</h4>
+        <textarea rows="5" cols="30" name="policylistview" id="policylistview" style="width: 80%; background-color: lightyellow; height: 100%;" wrap="soft" readonly>{% for Policymsg in Policymsgs %}{{Policymsg}}{% endfor %}</textarea>
+        <h4 style="margin-top:5px;margin-bottom:5px;">Policy Applied:</h4>
+        <textarea rows="10" cols="30" name="policylistview" id="policylistview" style="width: 80%; background-color: lightyellow; height: 100%;" wrap="soft" readonly>{% for PolicyList in PolicyLists %}{{PolicyList}}{% endfor %}</textarea>
+        
+    </center>
+            <div id="footer" style="background-color:#F0F8FF;clear:both;text-align:center;">
+        </div>
+</body>
+<!-- <meta http-equiv="refresh" content="60;url= " />      <!--  網頁60sec更新  -->
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Entry System</title>
+    <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #FFFFFF;
+        padding: 8px;
+        text-align: center;
+        background-color: #666666;
+    }
+
+    td {
+        border: 1px solid #DDDDDD;
+        padding: 8px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #DDDDDD;
+    }
+    </style>
+    <style type="text/css">
+    @import url(/static/menuTab/menuTab.css);
+    </style>
+</head>
+
+<body bgcolor='F0F8FF'>
+    <div id="header" style="background-color:#F0F8FF;text-align:center;" onclick="location.href='/EntryControl/UserData'">
+        <h2 style="margin-top:0;margin-bottom:5px;">Entry System</h2>
+        <h4 style="margin-top:0;margin-bottom:5px;">User List</h4>
+    </div>
+    <div id="tabsF">
+        <ul>
+            <li><a href="/EntryControl/EntryPolicy/"><span>Entry Policy</span></a></li>
+            <li id="current"><a href="/EntryControl/UserData"><span>User List</span></a></li>        
+            <li><a href="/EntryControl/Group/"><span>Group Define</span></a></li>
+            <li><a href="/EntryControl/EntryPolicy/Domain/"><span>Domain Define</span></a></li>   
+            <li><a href="/EventCenter/EventView/"><span>Event View</span></a></li>
+            <li><a href="/EventCenter/EventSearch/"><span>Event Search</span></a></li>
+            <li><a href="/ReaderView/"><span>Reader View</span></a></li>
+        </ul>
+    </div>
+
+    <center>
+
+        <!-- <h style="font-size:18px;color:#666666;">Enroll filter info</h> -->
+            <table style="font-family: arial, sans-serif;border-collapse: collapse;width: 99.8%;">
+                <tr>
+                    <th>
+                        <label for="id">ID</label>
+                    </th>
+                    <th>
+                        <label for="userid">UserID</label>
+                    </th>
+                    <th>
+                        <label for="psw">Password</label>
+                    </th>
+                    <th>
+                        <label for="fstname">FirstName</label>
+                    </th>
+                    <th>
+                        <label for="lstname">LastName</label>
+                    </th>
+                    <th>
+                        <!-- <label for="Day">Mon  Tue  Wes  Thu  Fri  Sat  Sun</label> -->
+                        <table style="width: 100%" border="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #666666">Manager</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                {%for user in users%}
+                <tr>
+                    <td>
+                        {{user.id}}
+                    </td>
+                    <td>
+                        {{user.userid}}
+                    </td>
+                    <td>
+                        ******
+                    </td>
+                    <td>
+                        {{user.firstname}}
+                    </td>
+                    <td>
+                        {{user.lastname}}
+                    </td>
+                    <td>
+                        <table style="width: 100%" border="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input name="mon" id="mon" type="checkbox" {% if user.manager == True %}CHECKED{% endif %} disabled="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+            <div style="font-size:30px;">New User</div>
+         <form name="newuser" id="newuser" action="" method="post">
+                        <table style="font-family: arial, sans-serif;border-collapse: collapse;width: 80%;">
+                <tr>
+                    <th>
+                        <label for="userid">UserID</label>
+                    </th>
+                    <th>
+                        <label for="psw">Password</label>
+                    </th>
+                    <th>
+                        <label for="fstname">FirstName</label>
+                    </th>
+                    <th>
+                        <label for="lstname">LastName</label>
+                    </th>
+                    <th>
+                        <!-- <label for="Day">Mon  Tue  Wes  Thu  Fri  Sat  Sun</label> -->
+                        <table style="width: 100%" border="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #666666">Manager</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                <tr>
+                    <td>
+                        <input type="text" name="userid">
+                    </td>
+                    <td>
+                        <input type="Password" name="psw">
+                    </td>
+                    <td>
+                        <input type="text" name="fstname">
+                    </td>
+                    <td>
+                        <input type="text" name="lstname">
+                    </td>
+                    <td>
+                        <table style="width: 100%" border="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input name="manager" id="manager" type="checkbox">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+            <input type="submit" name="Confirm" value="Confirm" id="Confirm" style="width:150px;height:25px;font-size:15px;">
+            <!-- <input type="submit" name="Apply" value="Apply" id="Apply" style="width:150px;height:25px;font-size:15px;"> -->
+        </form>
+<!--         <h4 style="margin-top:5px;margin-bottom:5px;">Message:</h4>
+        <textarea rows="5" cols="30" name="messagesview" id="messagesview" style="width: 80%; background-color: lightyellow; height: 100%;" wrap="soft" readonly>{% for Message in Messages %}{{Message}}{% endfor %}</textarea> -->
+        
+    </center>
+            <div id="footer" style="background-color:#F0F8FF;clear:both;text-align:center;">
+        </div>
+</body>
+<!-- <meta http-equiv="refresh" content="60;url= " />      <!--  網頁60sec更新  -->
+
+</html>

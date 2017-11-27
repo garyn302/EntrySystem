@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8"> 
+    {% load admin_static %}
+    <script type="text/javascript" src="{% static "jquery.js" %}"></script>
+    <script type="text/javascript" src="{% static "multiSelect.js" %}"></script>
+    <script type="text/javascript">
+    $(document).keypress(function(e) {
+        if (e.which == 10 || e.which == 13) {
+            $("#textAreaForm").submit();
+        }
+    });
+
+    $(document).ready(function() {
+        var historyTextArea = document.getElementById("historyView")
+        historyTextArea.scrollTop = historyTextArea.scrollHeight;
+
+        var commandTextArea = document.getElementById("commandView")
+        commandTextArea.focus();
+
+        document.getElementById("departmentNumber").onchange = function() { departmentChange() };
+
+        employeeArray = new Array();
+        employeeMessage = '{% for employeeNumber in employeeMessage %}{{employeeNumber.userID}}:{{employeeNumber.departmentNumber}}{% if not forloop.last%},{% endif %}{% endfor %}';
+        employeeArray = employeeMessage.split(",");
+        employeeID = new Array(employeeArray.length);
+        employeeArrayDepartment = new Array(employeeArray.length);
+        for (employeeCount = 0; employeeCount < employeeArray.length; employeeCount++) {
+            employeeData = new Array();
+            employeeData = employeeArray[employeeCount].split(":");
+            employeeID[employeeCount] = employeeData[0];
+            employeeArrayDepartment[employeeCount] = employeeData[1];
+        }
+
+        function departmentChange() {
+            document.getElementById("employeeNumber").length = 0
+            var departmentNumber = document.getElementById("departmentNumber").value;
+
+            window.console.log(departmentNumber);
+            if (departmentNumber == "All") {
+                for (employeeCount = 0; employeeCount < employeeID.length; employeeCount++) {
+                    $("#employeeNumber").append("<option value=" + employeeID[employeeCount] + ">" + employeeID[employeeCount] + "</option>");
+                }
+            } else {
+                for (employeeCount = 0; employeeCount < employeeID.length; employeeCount++) {
+                    if (employeeArrayDepartment[employeeCount] == departmentNumber) {
+                        $("#employeeNumber").append("<option value=" + employeeID[employeeCount] + ">" + employeeID[employeeCount] + "</option>");
+                    }
+                }
+            }
+        }
+
+        function moveEnd(obj) {
+            obj.focus();
+            var len = obj.value.length;
+            if (document.selection) {
+                var sel = obj.createTextRange();
+                sel.moveStart('character', len);
+                sel.collapse();
+                sel.select();
+            } else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+                obj.selectionStart = obj.selectionEnd = len;
+            }
+        }
+    });
+    </script>
+    <title>Entry System</title>
+    <script type='text/javascript'>
+    //<![CDATA[
+    $(function() {
+        $("#btnLeft").click(function() {
+            var selectedItem = $("#rightValues option:selected");
+            $("#leftValues").append(selectedItem);
+        });
+
+        $("#btnRight").click(function() {
+            var selectedItem = $("#leftValues option:selected");
+            $("#rightValues").append(selectedItem);
+        });
+
+        $("#rightValues").change(function() {
+            var selectedItem = $("#rightValues option:selected");
+            $("#txtRight").val(selectedItem.text());
+        });
+    }); //]]>
+    </script>
+    <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #FFFFFF;
+        padding: 8px;
+        text-align: center;
+        background-color: #666666;
+    }
+
+    td {
+        border: 1px solid #DDDDDD;
+        padding: 8px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #DDDDDD;
+    }
+    </style>
+    <style type="text/css">
+    @import url(/static/menuTab/menuTab.css);
+    </style>
+</head>
+
+<body bgcolor='F0F8FF'>
+    <div id="header" style="background-color:#F0F8FF;text-align:center;" onclick="location.href='/EntryControl/Group/{{groups.group_name}}'">
+        <h2 style="margin-top:0;margin-bottom:5px;">Entry System</h2>
+        <h4 style="margin-top:0;margin-bottom:5px;">Group List<!--  <a style="color:red;" href="/group">Back</a> --></h4>
+    </div>
+    <div id="tabsF">
+        <ul>
+            <li><a href="/EntryControl/EntryPolicy/"><span>Entry Policy</span></a></li>
+            <li><a href="/EntryControl/UserData"><span>User List</span></a></li>    
+            <li><a href="/EntryControl/Group/"><span>Group Define</span></a></li>
+            <li id="current"><a href="/EntryControl/Group/{{groups.group_name}}"><span>{{groups.group_name}}</span></a></li>
+            <li><a href="/EntryControl/EntryPolicy/Domain/"><span>Domain Define</span></a></li>
+            <li><a href="/EventCenter/EventView/"><span>Event View</span></a></li>
+            <li><a href="/EventCenter/EventSearch/"><span>Event Search</span></a></li>
+            <li><a href="/ReaderView/"><span>Reader View</span></a></li>
+        </ul>
+    </div>
+
+    <center>
+        <!-- <h style="font-size:18px;color:#666666;">Enroll filter info</h> -->
+        <table style="font-family: arial, sans-serif;border-collapse: collapse;width: 99.8%;">
+            <tr>
+                <th>
+                    <label for="group_id">Group ID</label>
+                </th>
+                <th>
+                    <label for="groupname">Group Name</label>
+                </th>
+                <th>
+                    <label for="descriptio">Descriptio</label>
+                </th>
+                <tr>
+                    <td>
+                        {{groups.group_id}}
+                    </td>
+                    <td>
+                        {{groups.group_name}}
+                    </td>
+                    <td>
+                        {{groups.group_description}}
+                    </td>
+                </tr>
+        </table>
+        <div style="font-size:30px;">Deploy Users</div>
+        <section class="container">
+            <div>
+                Add or Remove
+                <br>
+                <form action="" method="POST" id="deploy_user" name="deploy_user">
+                    <table style="width: 75%;" border="0" align="center">
+                        <tbody>
+                            <tr table="" align="center">
+                                <td style="width: 12%;">Available User</td>
+                                <td style="width: 6%;">
+                                    <br>
+                                </td>
+                                <td style="width: 12%;">User In Group</td>
+                            </tr>
+                            <tr table="" align="center">
+                                <td style="width: 12%;">
+                                    <select name="inDoor" id="inDoor" size="10" multiple="multiple" style="width: 100%; overflow:auto;">
+                                        {% for available_user in available_users %}
+                                        <option value="{{available_user}}">{{available_user}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br>
+                                </td>
+                                <td style="width: 6%;">
+                                    <button type="button" id="inDoorRightSelected" style="width: 80%;">Add</button>
+                                    <br>
+                                    <br>
+                                    <button type="button" id="inDoorLeftSelected" style="width: 80%;">Remove</button>
+                                </td>
+                                <td style="width: 12%;">
+                                    <select name="inDoorSelect" id="inDoorSelect" size="10" multiple="multiple" style="width: 100%; overflow:auto;">
+                                        {% for group_user in group_users %}
+                                        <option value={{group_user}}>{{group_user}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </section>
+        <br>
+        <input type="submit" name="Confirm" value="Confirm" id="Confirm" style="width:150px;height:25px;font-size:15px;">
+        <!--         <input type="submit" name="Apply" value="Apply" id="Apply" style="width:150px;height:25px;font-size:15px;"> -->
+        </form>
+<!--         <h4 style="margin-top:5px;margin-bottom:5px;">Message:</h4>
+        <textarea rows="5" cols="30" name="messagesview" id="messagesview" style="width: 80%; background-color: lightyellow; height: 100%;" wrap="soft" readonly>{% for Message in Messages %}{{Message}}{% endfor %}</textarea> -->
+    </center>
+    <div id="footer" style="background-color:#F0F8FF;clear:both;text-align:center;">
+    </div>
+</body>
+<!-- <meta http-equiv="refresh" content="60;url= " />      <!--  網頁60sec更新  -->
+
+</html>

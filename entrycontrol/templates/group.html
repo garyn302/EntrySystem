@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Entry System</title>
+    <script type='text/javascript'>//<![CDATA[
+        $(function(){
+        $("#btnLeft").click(function () {
+            var selectedItem = $("#rightValues option:selected");
+            $("#leftValues").append(selectedItem);
+        });
+
+        $("#btnRight").click(function () {
+            var selectedItem = $("#leftValues option:selected");
+            $("#rightValues").append(selectedItem);
+        });
+
+        $("#rightValues").change(function () {
+            var selectedItem = $("#rightValues option:selected");
+            $("#txtRight").val(selectedItem.text());
+        });
+        });//]]> 
+
+    </script>
+    <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #FFFFFF;
+        padding: 8px;
+        text-align: center;
+        background-color: #666666;
+    }
+
+    td {
+        border: 1px solid #DDDDDD;
+        padding: 8px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #DDDDDD;
+    }
+    </style>
+    <style type="text/css">
+    @import url(/static/menuTab/menuTab.css);
+    </style>
+</head>
+
+<body bgcolor='F0F8FF'>
+    <div id="header" style="background-color:#F0F8FF;text-align:center;" onclick="location.href='/EntryControl/Group/'">
+        <h2 style="margin-top:0;margin-bottom:5px;">Entry System</h2>
+        <h4 style="margin-top:0;margin-bottom:5px;">Group List</h4>
+    </div>
+    <div id="tabsF">
+        <ul>
+            <li><a href="/EntryControl/EntryPolicy/"><span>Entry Policy</span></a></li>
+            <li><a href="/EntryControl/UserData"><span>User List</span></a></li> 
+            <li id="current"><a href="/EntryControl/Group/"><span>Group Define</span></a></li>
+            <li><a href="/EntryControl/Domain/"><span>Domain Define</span></a></li>
+            <li><a href="/EventCenter/EventView/"><span>Event View</span></a></li>
+            <li><a href="/EventCenter/EventSearch/"><span>Event Search</span></a></li>
+            <li><a href="/ReaderView/"><span>Reader View</span></a></li>
+        </ul>
+    </div>
+    <center>
+
+        <!-- <h style="font-size:18px;color:#666666;">Enroll filter info</h> -->
+            <table style="font-family: arial, sans-serif;border-collapse: collapse;width: 99.8%;">
+                <tr>
+                    <th>
+                        <label for="group_id">Group ID</label>
+                    </th>
+                    <th>
+                        <label for="groupname">Group Name</label>
+                    </th>
+                    <th>
+                        <label for="description">Description</label>
+                    </th>
+                {% for group in groups %}
+                <tr>
+                    <td>
+                        {{group.group_id}}
+                    </td>
+                    <td>
+                        <a href="/EntryControl/Group/{{group.group_name}}/">{{group.group_name}}</a>
+                    </td>
+                    <td>
+                        {{group.group_description}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div style="font-size:30px;">New Group</div>
+         <section class="container">
+         <form name="newuser" id="newuser" action="" method="post">
+                        <table style="font-family: arial, sans-serif;border-collapse: collapse;width: 70%;">
+                <tr>
+                    <th>
+                        <label for="grouppname">Group Name</label>
+                    </th>
+                    <th>
+                        <label for="group_description">Description</label>
+                    </th>
+                <tr>
+                    <td>
+                        <input type="text" name="group_name">
+                    </td>
+                    <td>
+                        <input type="text" name="group_description">
+                    </td>
+                    </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+            <input type="submit" name="Confirm" value="Confirm" id="Confirm" style="width:150px;height:25px;font-size:15px;">
+            <!-- <input type="submit" name="Apply" value="Apply" id="Apply" style="width:150px;height:25px;font-size:15px;"> -->
+        </form>
+    </center>
+            <div id="footer" style="background-color:#F0F8FF;clear:both;text-align:center;">
+        </div>
+</body>
+<!-- <meta http-equiv="refresh" content="60;url= " />      <!--  網頁60sec更新  -->
+
+</html>

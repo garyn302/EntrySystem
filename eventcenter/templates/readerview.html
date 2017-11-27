@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Reader View</title>
+    <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #FFFFFF;
+        padding: 8px;
+        text-align: center;
+        background-color: #666666;
+    }
+
+    td {
+        border: 1px solid #DDDDDD;
+        padding: 8px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #FFFFFF;
+    }
+    </style>
+    <style type="text/css">
+    @import url(/static/menuTab/menuTab.css);
+    </style>
+</head>
+
+<body bgcolor='F0F8FF'>
+    <div id="header" style="background-color:#F0F8FF;text-align:center;" onclick="location.href='/ReaderView/{{Reader.reader_fqdn}}/'">
+        <h2 style="margin-top:0;margin-bottom:5px;">Entry System</h2>
+        <h4 style="margin-top:0;margin-bottom:5px;">Reader {{Reader.reader_fqdn}} Status View</h4>
+    </div>
+    <div id="tabsF">
+        <ul>
+            <li><a href="/EntryControl/EntryPolicy/"><span>Entry Policy</span></a></li>
+            <li><a href="/EntryControl/UserData"><span>User List</span></a></li>    
+            <li><a href="/EntryControl/Group/"><span>Group Define</span></a></li>
+            <li><a href="/EntryControl/Domain/"><span>Domain Define</span></a></li>
+            <li><a href="/EventCenter/EventView/"><span>Event View</span></a></li>
+            <li><a href="/EventCenter/EventSearch/"><span>Event Search</span></a></li>
+            <li><a href="/ReaderView/"><span>Reader View</span></a></li>
+            <li id="current"><a href="/ReaderView/{{Reader.reader_fqdn}}/"><span>{{Reader.reader_fqdn}}</span></a></li>
+        </ul>
+    </div>
+    <div style="background-color:#FFFFFF;overflow-x:hidden;line-height:20px;border:5px gray solid;margin: 0px auto;width: 99.5%;">
+        <table>
+            <tr>
+                <th>Reader FQDN</th>
+                <th>Update Time</th>
+                <th>Reader IP</th>
+                <th>Reader ID</th>
+                <th>Reader Role</th>
+                <th>Reader Status</th>
+                <th>Door Status</th>
+            </tr>
+            <tr>
+                <td>{{Reader.reader_fqdn}}</td>
+                <td>{{Reader.insert_time}}</td>
+                <td>{{Reader.reader_ip}}</td>
+                <td>{{Reader.reader_id}}</td>
+                <td>{{Reader.reader_role}}</td>
+                <td>{{Reader.reader_status}}</td>
+                {% if Reader.door_status == True %}
+                <td style="background-color: #ff0000;">Door Open</td>
+                {% else %}
+                <td>Door Close</td>
+                {% endif %}
+            </tr>
+        </table>
+    </div>
+    <div style="background-color:#FFFFFF;margin: 10px auto;width: 99.5%;"></div>
+    <div style="background-color:#FFFFFF;overflow-x:hidden;line-height:20px;border:5px gray solid;margin: 0px auto;width: 99.5%;">
+        <table>
+            <tr>
+                <th>Cassandra Status</th>
+                <th>PostgreSQL Status</th>
+                <th>Finger Vein</th>
+                <th>RFID</th>
+                <th>Authorization</th>
+                <th>Manager Fail</th>
+            </tr>
+            <tr>
+                <td>{{Reader.cassandra}}</td>
+                <td>{{Reader.postgresql}}</td>
+                <td>{{Reader.finger_vein}}</td>
+                <td>{{Reader.rfid}}</td>
+                <td>{{Reader.competence}}</td>
+                <td>{{Reader.manager_check_fail}}</td>
+            </tr>
+        </table>
+    </div>
+    <div style="background-color:#FFFFFF;margin: 10px auto;width: 99.5%;"></div>
+    <div style="background-color:#FFFFFF;overflow-x:hidden;line-height:20px;border:5px gray solid;margin: 0px auto;width: 99.5%;">
+        <table>
+            <tr>
+                <th>Authentication Fail (Unkwon User)</th>
+                <th>Fail By Account</th>
+                <th>Fail By Finger Vein</th>
+                <th>Fail By RFID</th>
+                <th>Door Open Time</th>
+                <th>Authorization Fail</th>
+                <th>Policy Fail</th>
+            </tr>
+            <tr>
+                <td>{{Reader.identify_fail}}</td>
+                <td>{{Reader.account_fail}}</td>
+                <td>{{Reader.finger_fail}}</td>
+                <td>{{Reader.rfid_fail}}</td>
+                <td>{{Reader.door_open_timer}}</td>
+                <td>{{Reader.competence_fail}}</td>
+                <td>{{Reader.policy_fail}}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+<meta http-equiv="refresh" content="10;url= " />
+<!--  網頁60sec更新 -->
+
+</html>

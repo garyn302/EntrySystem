@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" http-equiv="content-type">
+<title>doorSecurityEditor</title> 
+</head>
+<body style="width: 90%;">
+<h2>hello</h2>
+<h>{{userdatas.userid}}</h>
+{% for userdata in userdatas %}
+<h>{{userdata.userid}}</h>
+<h>{{userdata.firstname}}</h>
+<h>{{userdata.rfid}}</h>
+<h>{{userdata.group}}</h><br>
+{%endfor%}
+</body>
+</html>
